@@ -9,28 +9,39 @@
       "request": "launch",
       "name": "Debug executable 'graph-rs'",
       "cargo": {
-        "args": ["build", "--bin=graph-rs", "--package=graph-rs"],
+        "args": [
+          "build",
+          "--manifest-path=web-native/Cargo.toml",
+          "--bin=graph-rs",
+          "--package=graph-rs"
+        ],
         "filter": {
           "name": "graph-rs",
           "kind": "bin"
         }
       },
       "args": [],
-      "cwd": "${workspaceFolder}"
+      "cwd": "${workspaceFolder}/web-native"
     },
     {
       "type": "lldb",
       "request": "launch",
       "name": "Debug unit tests in executable 'graph-rs'",
       "cargo": {
-        "args": ["test", "--no-run", "--bin=graph-rs", "--package=graph-rs"],
+        "args": [
+          "test",
+          "--manifest-path=web-native/Cargo.toml",
+          "--no-run",
+          "--bin=graph-rs",
+          "--package=graph-rs"
+        ],
         "filter": {
           "name": "graph-rs",
           "kind": "bin"
         }
       },
       "args": [],
-      "cwd": "${workspaceFolder}"
+      "cwd": "${workspaceFolder}/web-native"
     }
   ]
 }
