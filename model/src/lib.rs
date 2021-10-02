@@ -1,6 +1,7 @@
 pub mod entity;
 pub mod field;
 pub mod json_schema;
+pub mod model;
 pub mod sql_type;
 
 // Tests
