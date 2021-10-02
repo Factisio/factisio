@@ -1,0 +1,22 @@
+[package]
+edition = "2018"
+name = "factisio"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+factisio_graphql_to_postgres = {version = "0.1.0", path = "./graphql-to-postgres"}
+factisio_server = {version = "0.1.0", path = "./server"}
+factisio_wasm = {version = "0.1.0", path = "./wasm"}
+
+[devDependencies]
+cargo-watch = {version = "8.1.1"}
+wasm-pack = {version = "0.10.1"}
+
+[workspace]
+members = [
+  "graphql-to-postgres",
+  "server",
+  "wasm",
+]
