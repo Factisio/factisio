@@ -1,5 +1,6 @@
 [package]
 edition = "2018"
+license = "Apache-2.0/MIT"
 name = "factisio"
 version = "0.1.0"
 
@@ -12,10 +13,9 @@ factisio_server = {version = "0.1.0", path = "./server"}
 factisio_wasm = {version = "0.1.0", path = "./wasm"}
 
 [dev-dependencies]
-cargo-insta = {version = "1.8.0"}
-cargo-watch = {version = "8.1.1"}
-insta = {version = "1.8.0"}
-wasm-pack = {version = "0.10.1"}
+# cargo-insta = {version = "1.8.0"}
+# cargo-watch = {version = "8.1.1"}
+# wasm-pack = {version = "0.10.1"}
 
 [workspace]
 members = [

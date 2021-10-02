@@ -1,5 +1,6 @@
 [package]
 edition = "2018"
+license = "Apache-2.0/MIT"
 name = "factisio_wasm"
 version = "0.1.0"
 
