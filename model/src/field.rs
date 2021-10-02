@@ -1,34 +1,56 @@
 use serde::{Deserialize, Serialize};
-// use serde_json::Result;
 
 #[derive(Serialize, Deserialize)]
-pub struct Field {
-  name: String,
-  age: u8,
-  phones: Vec<String>,
+#[serde(tag = "type", rename_all = "camelCase")]
+pub enum Field {
+  ScalarDatabaseColumn {
+    name: String,
+    sql_type_name: String,
+    sql_column_name: String,
+    graphql_field_name: String,
+    graphql_type_name: String,
+    graphql_order_by_asc: String,
+    graphql_order_by_desc: String,
+  },
 }
 
 // Tests
 #[cfg(test)]
 mod tests {
+  use super::*;
+
   #[test]
   fn it_works() {
-    // Some JSON input data as a &str. Maybe this comes from the user.
     let data = r#"
-        {
-            "name": "John Doe",
-            "age": 43,
-            "phones": [
-                "+44 1234567",
-                "+44 2345678"
-            ]
-        }"#;
+      {
+        "name": "id",
+        "type": "ScalarDatabaseColumn",
+        "sqlTypeName": "text",
+        "sqlColumnName": "id",
+        "graphqlFieldName": "id",
+        "graphqlTypeName": "String",
+        "graphqlOrderByAsc": "idAsc",
+        "graphqlOrderByDesc": "idDesc"
+      }
+      "#;
 
-    // Parse the string of data into a Person object. This is exactly the
-    // same function as the one that produced serde_json::Value above, but
-    // now we are asking it for a Person as output.
-    let p: Field = serde_json::from_str(data);
-
-    assert_eq!(p.name, "John Doe");
+    match serde_json::from_str(data) {
+      Ok(field) => match field {
+        Field::ScalarDatabaseColumn {
+          name,
+          sql_type_name,
+          sql_column_name,
+          graphql_field_name: _,
+          graphql_type_name: _,
+          graphql_order_by_asc: _,
+          graphql_order_by_desc: _,
+        } => {
+          assert_eq!(name, "id");
+          assert_eq!(sql_type_name, "text");
+          assert_eq!(sql_column_name, "id");
+        }
+      },
+      Err(e) => println!("Error: {}", e),
+    }
   }
 }
