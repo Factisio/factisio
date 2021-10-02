@@ -6,7 +6,8 @@ version = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-factisio_graphql_to_postgres = {version = "0.1.0", path = "./graphql-to-postgres"}
+factisio_gql_to_pgsql = {version = "0.1.0", path = "./gql-to-pgsql"}
+factisio_model = {version = "0.1.0", path = "./model"}
 factisio_server = {version = "0.1.0", path = "./server"}
 factisio_wasm = {version = "0.1.0", path = "./wasm"}
 
@@ -16,7 +17,8 @@ wasm-pack = {version = "0.10.1"}
 
 [workspace]
 members = [
-  "graphql-to-postgres",
+  "gql-to-pgsql",
   "server",
+  "model",
   "wasm",
 ]
