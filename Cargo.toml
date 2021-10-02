@@ -11,8 +11,10 @@ factisio_model = {version = "0.1.0", path = "./model"}
 factisio_server = {version = "0.1.0", path = "./server"}
 factisio_wasm = {version = "0.1.0", path = "./wasm"}
 
-[devDependencies]
+[dev-dependencies]
+cargo-insta = {version = "1.8.0"}
 cargo-watch = {version = "8.1.1"}
+insta = {version = "1.8.0"}
 wasm-pack = {version = "0.10.1"}
 
 [workspace]

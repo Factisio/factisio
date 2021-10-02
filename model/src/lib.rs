@@ -1,4 +1,6 @@
-mod field;
+pub mod field;
+pub mod json_schema;
+pub mod sql_type;
 
 // Tests
 #[cfg(test)]

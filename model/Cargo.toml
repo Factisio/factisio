@@ -8,7 +8,10 @@ version = "0.1.0"
 crate-type = ["lib"]
 
 [dependencies]
-postgres = "0.19.2"
+schemars = {version = "0.8.6"}
 serde = {version = "1.0.130", features = ["derive"]}
 serde_json = {version = "1.0.68"}
 serde_test = {version = "1.0.130"}
+
+[dev-dependencies]
+insta = {version = "1.8.0"}

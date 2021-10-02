@@ -2,8 +2,9 @@
 
 This module contains everything about the Model object
 
-- Serialization
-- Deserialization
+- Generate the JSON Schema for Models
+- Serialization Model to JSON
+- Deserialization Model from JSON
 
 ## Contribute
 
