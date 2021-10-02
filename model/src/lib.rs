@@ -1,3 +1,4 @@
+pub mod entity;
 pub mod field;
 pub mod json_schema;
 pub mod sql_type;

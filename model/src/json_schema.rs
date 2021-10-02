@@ -14,6 +14,6 @@ mod tests {
   fn json_schema_ok() {
     let schema = generate_json_schema();
     // The json schema is too long to check here, so we check it with insta
-    insta::assert_debug_snapshot!(serde_json::to_string_pretty(&schema).unwrap())
+    insta::assert_debug_snapshot!(serde_json::to_string_pretty(&schema).unwrap());
   }
 }
