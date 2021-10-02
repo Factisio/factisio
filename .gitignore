@@ -13,3 +13,10 @@
 # Added by cargo
 
 */target
+*/pkg
+
+# Added by cargo
+
+/target
+web-native/.DS_Store
+.DS_Store
