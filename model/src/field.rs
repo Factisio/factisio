@@ -2,7 +2,7 @@ use super::sql_type;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, JsonSchema)]
+#[derive(Serialize, Deserialize, Debug, JsonSchema)]
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum Field {
   #[serde(rename_all = "camelCase")]

@@ -3,7 +3,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::rc::Rc;
 
-#[derive(Serialize, Deserialize, JsonSchema)]
+#[derive(Serialize, Deserialize, Debug, JsonSchema)]
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum Entity {
   #[serde(rename_all = "camelCase")]

@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::rc::Rc;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum EntityCache {
   DatabaseTable {
@@ -53,7 +53,7 @@ mod tests {
   use factisio_model::sql_type;
 
   #[test]
-  fn serialize() {
+  fn constructor() {
     let value = Rc::new(Entity::DatabaseTable {
       name: "person".to_string(),
       sql_schema_name: "public".to_string(),
@@ -88,6 +88,7 @@ mod tests {
       ],
     });
 
-    insta::assert_debug_snapshot!(serde_json::to_string_pretty(&EntityCache::new(value)).unwrap());
+    insta::assert_debug_snapshot!(EntityCache::new(value));
+    // insta::assert_debug_snapshot!(serde_json::to_string_pretty(&EntityCache::new(value)).unwrap());
   }
 }

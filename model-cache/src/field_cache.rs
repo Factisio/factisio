@@ -2,7 +2,7 @@ use factisio_model::field::Field;
 use serde::{Deserialize, Serialize};
 use std::rc::Rc;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum FieldCache {
   ScalarDatabaseColumn { field: Rc<Field> },
@@ -28,7 +28,7 @@ mod tests {
   use factisio_model::sql_type;
 
   #[test]
-  fn serialize() {
+  fn constructor() {
     let value = Rc::new(Field::ScalarDatabaseColumn {
       name: "id".to_string(),
       sql_type: sql_type::Type::Text,
@@ -39,6 +39,10 @@ mod tests {
       graphql_order_by_desc: "id_DESC".to_string(),
     });
 
-    insta::assert_debug_snapshot!(serde_json::to_string_pretty(&FieldCache::new(value)).unwrap());
+    insta::assert_debug_snapshot!(FieldCache::new(Rc::clone(&value)));
+    insta::assert_debug_snapshot!(serde_json::to_string_pretty(&FieldCache::new(Rc::clone(
+      &value
+    )))
+    .unwrap());
   }
 }

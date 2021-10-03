@@ -3,7 +3,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::rc::Rc;
 
-#[derive(Serialize, Deserialize, JsonSchema)]
+#[derive(Serialize, Deserialize, Debug, JsonSchema)]
 #[serde(tag = "version", rename_all = "camelCase")]
 pub enum Model {
   V1 { entities: Vec<Rc<Entity>> },
