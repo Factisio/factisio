@@ -1,7 +1,7 @@
 [package]
 edition = "2018"
 license = "Apache-2.0/MIT"
-name = "factisio_model"
+name = "factisio_model_cache"
 version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -9,6 +9,7 @@ version = "0.1.0"
 crate-type = ["lib"]
 
 [dependencies]
+factisio_model = {version = "0.1.0", path = "../model"}
 schemars = {version = "0.8.6"}
 serde = {version = "1.0.130", features = ["derive"]}
 serde_json = {version = "1.0.68"}

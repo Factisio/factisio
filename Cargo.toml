@@ -9,6 +9,7 @@ version = "0.1.0"
 [dependencies]
 factisio_gql_to_pgsql = {version = "0.1.0", path = "./gql-to-pgsql"}
 factisio_model = {version = "0.1.0", path = "./model"}
+factisio_model_cache = {version = "0.1.0", path = "./model-cache"}
 factisio_server = {version = "0.1.0", path = "./server"}
 factisio_wasm = {version = "0.1.0", path = "./wasm"}
 
@@ -22,5 +23,6 @@ members = [
   "gql-to-pgsql",
   "server",
   "model",
+  "model-cache",
   "wasm",
 ]
