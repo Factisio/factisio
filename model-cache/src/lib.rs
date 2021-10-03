@@ -1,4 +1,5 @@
 pub mod entity_cache;
+pub mod field_cache;
 
 // Tests
 #[cfg(test)]
