@@ -1,9 +1,8 @@
 use super::field_cache::FieldCache;
 use factisio_model::entity::Entity;
 use factisio_model::field::Field;
-use serde::{Deserialize, Serialize};
-// use std::collections::HashMap;
 use rustc_hash::FxHashMap;
+use serde::{Deserialize, Serialize};
 use std::rc::Rc;
 
 #[derive(Serialize, Deserialize, Debug)]
