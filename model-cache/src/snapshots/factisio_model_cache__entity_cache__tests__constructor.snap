@@ -38,17 +38,6 @@ DatabaseTable {
         ],
     },
     fields_by_sql_column_name: {
-        "drone_col": ScalarDatabaseColumn {
-            field: ScalarDatabaseColumn {
-                name: "drone",
-                sql_type: Text,
-                sql_column_name: "drone_col",
-                graphql_field_name: "drone",
-                graphql_type_name: "String",
-                graphql_order_by_asc: "drone_ASC",
-                graphql_order_by_desc: "drone_DESC",
-            },
-        },
         "id_col": ScalarDatabaseColumn {
             field: ScalarDatabaseColumn {
                 name: "id",
@@ -58,6 +47,17 @@ DatabaseTable {
                 graphql_type_name: "String",
                 graphql_order_by_asc: "id_ASC",
                 graphql_order_by_desc: "id_DESC",
+            },
+        },
+        "drone_col": ScalarDatabaseColumn {
+            field: ScalarDatabaseColumn {
+                name: "drone",
+                sql_type: Text,
+                sql_column_name: "drone_col",
+                graphql_field_name: "drone",
+                graphql_type_name: "String",
+                graphql_order_by_asc: "drone_ASC",
+                graphql_order_by_desc: "drone_DESC",
             },
         },
     },

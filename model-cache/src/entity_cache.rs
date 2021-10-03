@@ -2,7 +2,8 @@ use super::field_cache::FieldCache;
 use factisio_model::entity::Entity;
 use factisio_model::field::Field;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+// use std::collections::HashMap;
+use rustc_hash::FxHashMap;
 use std::rc::Rc;
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -10,8 +11,8 @@ use std::rc::Rc;
 pub enum EntityCache {
   DatabaseTable {
     entity: Rc<Entity>,
-    fields_by_sql_column_name: HashMap<String, Rc<FieldCache>>,
-    fields_by_graphql_field_name: HashMap<String, Rc<FieldCache>>,
+    fields_by_sql_column_name: FxHashMap<String, Rc<FieldCache>>,
+    fields_by_graphql_field_name: FxHashMap<String, Rc<FieldCache>>,
   },
 }
 
@@ -20,8 +21,8 @@ impl EntityCache {
   pub fn new(entity: Rc<Entity>) -> EntityCache {
     match &*entity {
       Entity::DatabaseTable { fields, .. } => {
-        let mut fields_by_sql_column_name = HashMap::new();
-        let mut fields_by_graphql_field_name = HashMap::new();
+        let mut fields_by_sql_column_name = FxHashMap::default();
+        let mut fields_by_graphql_field_name = FxHashMap::default();
         for field in fields.iter() {
           match &**field {
             Field::ScalarDatabaseColumn {
@@ -88,7 +89,10 @@ mod tests {
       ],
     });
 
-    insta::assert_debug_snapshot!(EntityCache::new(value));
-    // insta::assert_debug_snapshot!(serde_json::to_string_pretty(&EntityCache::new(value)).unwrap());
+    insta::assert_debug_snapshot!(EntityCache::new(Rc::clone(&value)));
+    insta::assert_debug_snapshot!(serde_json::to_string_pretty(&EntityCache::new(Rc::clone(
+      &value
+    )))
+    .unwrap());
   }
 }

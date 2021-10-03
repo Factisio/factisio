@@ -10,6 +10,7 @@ crate-type = ["lib"]
 
 [dependencies]
 factisio_model = {version = "0.1.0", path = "../model"}
+rustc-hash = {version = "1.0"}
 schemars = {version = "0.8.6"}
 serde = {version = "1.0.130", features = ["derive", "rc"]}
 serde_json = {version = "1.0.68"}
