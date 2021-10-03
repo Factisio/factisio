@@ -1,93 +1,93 @@
-// use super::field_cache::FieldCache;
-// use factisio_model::entity::Entity;
-// use factisio_model::field::Field;
+use super::field_cache::FieldCache;
+use factisio_model::entity::Entity;
+use factisio_model::field::Field;
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
+use std::rc::Rc;
 
-// use std::collections::HashMap;
+#[derive(Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "camelCase")]
+pub enum EntityCache {
+  DatabaseTable {
+    entity: Rc<Entity>,
+    fields_by_sql_column_name: HashMap<String, Rc<FieldCache>>,
+    fields_by_graphql_field_name: HashMap<String, Rc<FieldCache>>,
+  },
+}
 
-// use serde::Serialize;
+impl EntityCache {
+  // Another associated function, taking two arguments:
+  pub fn new(entity: Rc<Entity>) -> EntityCache {
+    match &*entity {
+      Entity::DatabaseTable { fields, .. } => {
+        let mut fields_by_sql_column_name = HashMap::new();
+        let mut fields_by_graphql_field_name = HashMap::new();
+        for field in fields.iter() {
+          match &**field {
+            Field::ScalarDatabaseColumn {
+              sql_column_name,
+              graphql_field_name,
+              ..
+            } => {
+              let field_cache = Rc::new(FieldCache::new(Rc::clone(&field)));
+              fields_by_sql_column_name.insert(sql_column_name.clone(), Rc::clone(&field_cache));
+              fields_by_graphql_field_name
+                .insert(graphql_field_name.clone(), Rc::clone(&field_cache));
+            }
+          }
+        }
+        return EntityCache::DatabaseTable {
+          entity: Rc::clone(&entity),
+          fields_by_sql_column_name,
+          fields_by_graphql_field_name,
+        };
+      }
+    };
+  }
+}
 
-// #[derive(Serialize)]
-// #[serde(tag = "type", rename_all = "camelCase")]
-// pub enum EntityCache<'a> {
-//   DatabaseTable {
-//     entity: &'a Entity,
-//     fields_by_sql_column_name: HashMap<String, &'a FieldCache<'a>>,
-//     fields_by_graphql_field_name: HashMap<String, &'a FieldCache<'a>>,
-//   },
-// }
+// Tests
+#[cfg(test)]
+mod tests {
+  use super::*;
+  use factisio_model::sql_type;
 
-// impl<'a> EntityCache<'a> {
-//   // Another associated function, taking two arguments:
-//   pub fn new(entity: &'a Entity) -> EntityCache<'a> {
-//     match entity {
-//       Entity::DatabaseTable { fields, .. } => {
-//         let mut fields_by_sql_column_name = HashMap::new();
-//         let mut fields_by_graphql_field_name = HashMap::new();
-//         for field in fields.iter() {
-//           match field {
-//             Field::ScalarDatabaseColumn {
-//               sql_column_name,
-//               graphql_field_name,
-//               ..
-//             } => {
-//               let field_cache = FieldCache::new(field);
-//               fields_by_sql_column_name.insert(sql_column_name.clone(), &field_cache);
-//               fields_by_graphql_field_name.insert(graphql_field_name.clone(), &field_cache);
-//             }
-//           }
-//         }
-//         return EntityCache::DatabaseTable {
-//           entity,
-//           fields_by_sql_column_name,
-//           fields_by_graphql_field_name,
-//         };
-//       }
-//     };
-//   }
-// }
+  #[test]
+  fn serialize() {
+    let value = Rc::new(Entity::DatabaseTable {
+      name: "person".to_string(),
+      sql_schema_name: "public".to_string(),
+      sql_table_name: "person_table".to_string(),
+      graphql_entity_type_name: "Person".to_string(),
+      graphql_filter_type_name: "PersonWhereFilter".to_string(),
+      graphql_get_single_operation_name: "person".to_string(),
+      graphql_get_list_operation_name: "persons".to_string(),
+      graphql_get_connection_operation_name: "personConnection".to_string(),
+      graphql_default_order_by: "id_ASC".to_string(),
+      graphql_default_first: 10,
+      graphql_default_offset: 0,
+      fields: vec![
+        Rc::new(Field::ScalarDatabaseColumn {
+          name: "id".to_string(),
+          sql_type: sql_type::Type::Text,
+          sql_column_name: "id_col".to_string(),
+          graphql_field_name: "id".to_string(),
+          graphql_type_name: "String".to_string(),
+          graphql_order_by_asc: "id_ASC".to_string(),
+          graphql_order_by_desc: "id_DESC".to_string(),
+        }),
+        Rc::new(Field::ScalarDatabaseColumn {
+          name: "drone".to_string(),
+          sql_type: sql_type::Type::Text,
+          sql_column_name: "drone_col".to_string(),
+          graphql_field_name: "drone".to_string(),
+          graphql_type_name: "String".to_string(),
+          graphql_order_by_asc: "drone_ASC".to_string(),
+          graphql_order_by_desc: "drone_DESC".to_string(),
+        }),
+      ],
+    });
 
-// // Tests
-// #[cfg(test)]
-// mod tests {
-//   use super::*;
-//   use factisio_model::sql_type;
-
-//   #[test]
-//   fn serialize() {
-//     let value = Entity::DatabaseTable {
-//       name: "person".to_string(),
-//       sql_schema_name: "public".to_string(),
-//       sql_table_name: "person_table".to_string(),
-//       graphql_entity_type_name: "Person".to_string(),
-//       graphql_filter_type_name: "PersonWhereFilter".to_string(),
-//       graphql_get_single_operation_name: "person".to_string(),
-//       graphql_get_list_operation_name: "persons".to_string(),
-//       graphql_get_connection_operation_name: "personConnection".to_string(),
-//       graphql_default_order_by: "id_ASC".to_string(),
-//       graphql_default_first: 10,
-//       graphql_default_offset: 0,
-//       fields: vec![
-//         Field::ScalarDatabaseColumn {
-//           name: "id".to_string(),
-//           sql_type: sql_type::Type::Text,
-//           sql_column_name: "id_col".to_string(),
-//           graphql_field_name: "id".to_string(),
-//           graphql_type_name: "String".to_string(),
-//           graphql_order_by_asc: "id_ASC".to_string(),
-//           graphql_order_by_desc: "id_DESC".to_string(),
-//         },
-//         Field::ScalarDatabaseColumn {
-//           name: "drone".to_string(),
-//           sql_type: sql_type::Type::Text,
-//           sql_column_name: "drone_col".to_string(),
-//           graphql_field_name: "drone".to_string(),
-//           graphql_type_name: "String".to_string(),
-//           graphql_order_by_asc: "drone_ASC".to_string(),
-//           graphql_order_by_desc: "drone_DESC".to_string(),
-//         },
-//       ],
-//     };
-
-//     insta::assert_debug_snapshot!(serde_json::to_string_pretty(&EntityCache::new(&value)).unwrap());
-//   }
-// }
+    insta::assert_debug_snapshot!(serde_json::to_string_pretty(&EntityCache::new(value)).unwrap());
+  }
+}

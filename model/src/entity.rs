@@ -1,6 +1,7 @@
 use super::field::Field;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
+use std::rc::Rc;
 
 #[derive(Serialize, Deserialize, JsonSchema)]
 #[serde(tag = "type", rename_all = "camelCase")]
@@ -18,7 +19,7 @@ pub enum Entity {
     graphql_default_order_by: String,
     graphql_default_first: i16,
     graphql_default_offset: i16,
-    fields: Vec<Field>,
+    fields: Vec<Rc<Field>>,
   },
 }
 
@@ -43,7 +44,7 @@ mod tests {
       graphql_default_first: 10,
       graphql_default_offset: 0,
       fields: vec![
-        Field::ScalarDatabaseColumn {
+        Rc::new(Field::ScalarDatabaseColumn {
           name: "id".to_string(),
           sql_type: sql_type::Type::Text,
           sql_column_name: "id_col".to_string(),
@@ -51,8 +52,8 @@ mod tests {
           graphql_type_name: "String".to_string(),
           graphql_order_by_asc: "id_ASC".to_string(),
           graphql_order_by_desc: "id_DESC".to_string(),
-        },
-        Field::ScalarDatabaseColumn {
+        }),
+        Rc::new(Field::ScalarDatabaseColumn {
           name: "drone".to_string(),
           sql_type: sql_type::Type::Text,
           sql_column_name: "drone_col".to_string(),
@@ -60,7 +61,7 @@ mod tests {
           graphql_type_name: "String".to_string(),
           graphql_order_by_asc: "drone_ASC".to_string(),
           graphql_order_by_desc: "drone_DESC".to_string(),
-        },
+        }),
       ],
     };
 

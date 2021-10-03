@@ -10,7 +10,7 @@ crate-type = ["lib"]
 
 [dependencies]
 schemars = {version = "0.8.6"}
-serde = {version = "1.0.130", features = ["derive"]}
+serde = {version = "1.0.130", features = ["derive", "rc"]}
 serde_json = {version = "1.0.68"}
 
 [dev-dependencies]
